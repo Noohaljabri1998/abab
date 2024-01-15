@@ -14,33 +14,55 @@
 <body>
   <h1>Google Map with Markers</h1>
   <div id="map"></div>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-nyWXjaf5hplAhWsAZElsOmHzc7I0KvM&libraries=geometry&callback=initMap" async defer></script>
-  <script>function initMap() {
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-nyWXjaf5hplAhWsAZElsOmHzc7I0KvM&libraries=drawing,geometry&callback=initMap" async defer></script>
+  
+  <script>
+    let map;
+let drawingManager;
+let markers = [];
+let deletedMusqus = [];
+
+function initMap() {
   const center = { lat: 21.4189684850001, lng: 39.8169254470001 };
-  const radius = 600; // in meters
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: center,
+    zoom: 15
+  });
+
+  drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: google.maps.drawing.OverlayType.POLYGON,
+    drawingControl: true,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER,
+      drawingModes: ['polygon']
+    }
+  });
+
+  drawingManager.setMap(map);
+
+  google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
+    markers.forEach(marker => {
+      if (google.maps.geometry.poly.containsLocation(marker.getPosition(), polygon)) {
+        marker.setMap(null);
+        deletedMusqus.push(marker.getPosition());
+      }
+    });
+
+    alert('Markers hidden in the selected area. Positions added to deletedMusqus array.');
+  });
 
   fetch('https://raw.githubusercontent.com/saifghanmi/mappa/main/mappa.json')
     .then(response => response.json())
     .then(data => {
-      const map = new google.maps.Map(document.getElementById('map'), {
-        center: center,
-        zoom: 15
-      });
-
       data.forEach(item => {
         const position = { lat: parseFloat(item.lat), lng: parseFloat(item.lng) };
-        const distance = google.maps.geometry.spherical.computeDistanceBetween(
-          new google.maps.LatLng(center.lat, center.lng),
-          new google.maps.LatLng(position.lat, position.lng)
-        );
-
-        if (distance > radius) {
-          const marker = new google.maps.Marker({
-            position: position,
-            map: map,
-            title: item.placeName
-          });
-        }
+        const marker = new google.maps.Marker({
+          position: position,
+          map: map,
+          title: item.placeName
+        });
+        markers.push(marker);
       });
     })
     .catch(error => {
