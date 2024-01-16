@@ -42,15 +42,20 @@ function initMap() {
   drawingManager.setMap(map);
 
   google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
-    markers.forEach(marker => {
-      if (google.maps.geometry.poly.containsLocation(marker.getPosition(), polygon)) {
-        marker.setMap(null);
-        deletedMusqus.push(marker.getPosition());
-      }
-    });
-
-    alert('Markers hidden in the selected area. Positions added to deletedMusqus array.');
+  markers.forEach(marker => {
+    if (google.maps.geometry.poly.containsLocation(marker.getPosition(), polygon)) {
+      marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png'); // Change the marker icon to a green color
+    }
   });
+
+  let alertMessage = 'هل تريد ازالة هذة المساجد:\n';
+  hiddenMarkers.forEach(name => {
+    alertMessage += name + '\n'; // Add each marker's name to the alert message
+  });
+
+  alert(alertMessage); // Display the alert with the names of hidden markers
+});
+
 
   fetch('https://raw.githubusercontent.com/saifghanmi/mappa/main/mappa.json')
     .then(response => response.json())
