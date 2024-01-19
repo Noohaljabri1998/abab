@@ -3,6 +3,11 @@
     margin: 0;
     padding: 0;
 }
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
 .musqus-to-delete{
     display: flex;
     flex-direction: column;
@@ -55,6 +60,9 @@ textarea{
     right: -10px;
     z-index: -1;
 }
+#map{
+    flex-grow: 1;
+}
 @keyframes buble {
     0%{
         width: 0%;
@@ -65,5 +73,15 @@ textarea{
         width: 200px;
         height: 200px;
         border-radius: 2px;
+    }
+}
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px) {
+    body{
+        height: 100vmax;
+    }
+    textarea {
+        margin: 12px 6px;
     }
 }
