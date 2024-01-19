@@ -83,7 +83,7 @@
                   if (mosqueIndex !== -1) {
                     hiddenMosques.splice(mosqueIndex, 1); // Remove the mosque from the hiddenMosques array
                     marker.setIcon(
-                      "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                      "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
                     ); // Reset the marker icon to red
                   }
                 }
@@ -104,7 +104,7 @@
                   if (!isMosqueInHiddenMosques(newMosque)) {
                     hiddenMosques.push(newMosque);
                     marker.setIcon(
-                      "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                      "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
                     ); // Change the marker icon to a green color
                   }
                 }
@@ -153,6 +153,9 @@
                 title: item.placeName,
               });
               markers.push(marker);
+              marker.setIcon(
+                      "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                    ); 
             });
           }).then(()=>{
             
@@ -160,6 +163,8 @@
   .then((response) => response.json())
   .then((data) => {
     hiddenMosques = data; // Update the hiddenMosques array with the fetched data
+            document.querySelector("textarea").value =
+              JSON.stringify(hiddenMosques);
 
     // Loop through the hidden mosques and set their markers to green
     hiddenMosques.forEach((mosque) => {
@@ -168,7 +173,7 @@
           marker.getPosition().lat() === mosque[0] &&
           marker.getPosition().lng() === mosque[1]
         ) {
-          marker.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+          marker.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
         }
       });
     });
