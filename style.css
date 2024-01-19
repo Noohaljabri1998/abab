@@ -19,6 +19,7 @@ textarea{
     display: flex;
     flex-direction: row;
     margin: 0 30px;
+    justify-content: center;
 }
 .btn{
     cursor: pointer;
@@ -83,5 +84,8 @@ textarea{
     }
     textarea {
         margin: 12px 6px;
+    }
+    .btn{
+        font-size: 16px;
     }
 }
