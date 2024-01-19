@@ -14,4 +14,5 @@ function copy() {
   copyText.setSelectionRange(0, 99999); /* For mobile devices */
   document.execCommand("copy");
   alert("تم نسخ النص");
+  window.location.href = "https://github.com/Noohaljabri1998/abab/blob/main/mosques_to_delete.json";
 }
