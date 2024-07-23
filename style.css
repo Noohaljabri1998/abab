@@ -84,6 +84,7 @@
 }
 form {
   width: 80%;
+  max-width: 500px;
 }
 .form-title {
   font-size: 2em;
@@ -133,6 +134,7 @@ form .icon img {
   display: flex;
   flex-direction: column;
   width: 80%;
+  max-width: 500px;
 }
 .title-login-with {
   display: flex;
